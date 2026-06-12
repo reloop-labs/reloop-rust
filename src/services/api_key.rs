@@ -14,11 +14,11 @@ impl<'a> ApiKeyService<'a> {
 
     pub async fn create(&self, params: CreateApiKeyParams) -> Result<ApiKeyWithKey, Box<dyn std::error::Error>> {
         let body = serde_json::to_value(params)?;
-        self.client.fetch(Method::POST, "/api-key/v1/", Some(body)).await
+        self.client.fetch(Method::POST, "/api/api-key/v1/", Some(body)).await
     }
 
     pub async fn list(&self, params: Option<ApiKeyListParams>) -> Result<ApiKeyListResponse, Box<dyn std::error::Error>> {
-        let mut path = "/api-key/v1/".to_string();
+        let mut path = "/api/api-key/v1/".to_string();
         if let Some(p) = params {
             let mut query = HashMap::new();
             if let Some(page) = p.page { query.insert("page", page.to_string()); }
@@ -29,7 +29,11 @@ impl<'a> ApiKeyService<'a> {
 
             if !query.is_empty() {
                 path.push('?');
-                let query_string = query.iter().map(|(k, v)| format="{}={}", k, v)).collect::<Vec<_>>().join("&");
+                let query_string = query
+                    .iter()
+                    .map(|(k, v)| format!("{}={}", k, v))
+                    .collect::<Vec<_>>()
+                    .join("&");
                 path.push_str(&query_string);
             }
         }
@@ -37,27 +41,27 @@ impl<'a> ApiKeyService<'a> {
     }
 
     pub async fn get(&self, id: &str) -> Result<ApiKey, Box<dyn std::error::Error>> {
-        self.client.fetch(Method::GET, &format!("/api-key/v1/{}", id), None).await
+        self.client.fetch(Method::GET, &format!("/api/api-key/v1/{id}"), None).await
     }
 
     pub async fn update(&self, id: &str, params: UpdateApiKeyParams) -> Result<ApiKey, Box<dyn std::error::Error>> {
         let body = serde_json::to_value(params)?;
-        self.client.fetch(Method::PATCH, &format!("/api-key/v1/{}", id), Some(body)).await
+        self.client.fetch(Method::PATCH, &format!("/api/api-key/v1/{id}"), Some(body)).await
     }
 
     pub async fn delete(&self, id: &str) -> Result<DeleteApiKeyResponse, Box<dyn std::error::Error>> {
-        self.client.fetch(Method::DELETE, &format!("/api-key/v1/{}", id), None).await
+        self.client.fetch(Method::DELETE, &format!("/api/api-key/v1/{id}"), None).await
     }
 
     pub async fn rotate(&self, id: &str) -> Result<ApiKeyWithKey, Box<dyn std::error::Error>> {
-        self.client.fetch(Method::POST, &format!("/api-key/v1/rotate/{}", id), None).await
+        self.client.fetch(Method::POST, &format!("/api/api-key/v1/rotate/{id}"), None).await
     }
 
     pub async fn enable(&self, id: &str) -> Result<ApiKey, Box<dyn std::error::Error>> {
-        self.client.fetch(Method::POST, &format!("/api-key/v1/enable/{}", id), None).await
+        self.client.fetch(Method::POST, &format!("/api/api-key/v1/enable/{id}"), None).await
     }
 
     pub async fn disable(&self, id: &str) -> Result<ApiKey, Box<dyn std::error::Error>> {
-        self.client.fetch(Method::POST, &format!("/api-key/v1/disable/{}", id), None).await
+        self.client.fetch(Method::POST, &format!("/api/api-key/v1/disable/{id}"), None).await
     }
 }
