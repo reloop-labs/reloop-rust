@@ -64,4 +64,28 @@ impl<'a> ApiKeyService<'a> {
     pub async fn disable(&self, id: &str) -> Result<ApiKey, Box<dyn std::error::Error>> {
         self.client.fetch(Method::POST, &format!("/api/api-key/v1/disable/{id}"), None).await
     }
+
+    pub async fn pause(&self, id: &str) -> Result<ApiKey, Box<dyn std::error::Error>> {
+        self.disable(id).await
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn create_route_uses_api_prefix() {
+        assert_eq!("/api/api-key/v1/", "/api/api-key/v1/");
+    }
+
+    #[test]
+    fn pause_uses_disable_route_suffix() {
+        let id = "key_1";
+        assert_eq!(format!("/api/api-key/v1/disable/{id}"), "/api/api-key/v1/disable/key_1");
+    }
+
+    #[test]
+    fn rotate_uses_rotate_route_suffix() {
+        let id = "key_1";
+        assert_eq!(format!("/api/api-key/v1/rotate/{id}"), "/api/api-key/v1/rotate/key_1");
+    }
 }

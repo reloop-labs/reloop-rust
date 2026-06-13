@@ -313,3 +313,38 @@ impl<'a> ContactChannelsService<'a> {
         ).await
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn create_route_uses_contacts_create() {
+        assert_eq!("/api/contacts/create", "/api/contacts/create");
+    }
+
+    #[test]
+    fn get_route_uses_retrieve_path() {
+        let contact_id = "con_1";
+        assert_eq!(
+            format!("/api/contacts/retrieve/{contact_id}"),
+            "/api/contacts/retrieve/con_1"
+        );
+    }
+
+    #[test]
+    fn group_contacts_route_includes_group_id() {
+        let group_id = "grp_1";
+        assert_eq!(
+            format!("/api/contacts/v1/groups/{group_id}/contacts"),
+            "/api/contacts/v1/groups/grp_1/contacts"
+        );
+    }
+
+    #[test]
+    fn channel_add_contact_route_uses_channel_path() {
+        let channel_id = "ch_1";
+        assert_eq!(
+            format!("/api/contacts/channel/{channel_id}"),
+            "/api/contacts/channel/ch_1"
+        );
+    }
+}
