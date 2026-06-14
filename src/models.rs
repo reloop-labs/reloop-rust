@@ -249,6 +249,16 @@ pub struct DomainNameserversResponse {
     pub event: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SendMailResponse {
+    pub success: bool,
+    pub message_id: String,
+    pub status: String,
+    pub timestamp: String,
+    pub id: String,
+}
+
 #[cfg(test)]
 mod domain_model_tests {
     use super::*;

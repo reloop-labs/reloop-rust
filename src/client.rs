@@ -1,7 +1,7 @@
 use reqwest::{Client, Method};
 use serde::de::DeserializeOwned;
 use serde_json::Value;
-use crate::services::{api_key::ApiKeyService, contacts::ContactsService, domain::DomainService};
+use crate::services::{api_key::ApiKeyService, contacts::ContactsService, domain::DomainService, mail::MailService};
 
 pub struct ReloopClient {
     api_key: String,
@@ -28,6 +28,10 @@ impl ReloopClient {
 
     pub fn domain(&self) -> DomainService<'_> {
         DomainService::new(self)
+    }
+
+    pub fn mail(&self) -> MailService<'_> {
+        MailService::new(self)
     }
 
     pub async fn fetch_value(
