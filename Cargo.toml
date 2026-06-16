@@ -3,6 +3,10 @@ name = "reloop"
 version = "1.8.0"
 edition = "2021"
 license = "Apache-2.0"
+description = "Rust SDK for the Reloop email API"
+repository = "https://github.com/reloop-labs/reloop-rust"
+homepage = "https://reloop.sh"
+readme = "README.md"
 
 [dependencies]
 reqwest = { version = "=0.11.18", features = ["json"] }
