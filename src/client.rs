@@ -50,6 +50,7 @@ impl ReloopClient {
         let url = format!("{}{}", self.base_url, path);
         let mut builder = self.http_client.request(method, url)
             .header("x-api-key", &self.api_key)
+            .header("User-Agent", "reloop-rust/0.1.0") 
             .header("Content-Type", "application/json")
             .header("Accept", "application/json");
 
